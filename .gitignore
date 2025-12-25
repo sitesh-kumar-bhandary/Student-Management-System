@@ -1,0 +1,61 @@
+### Maven ###
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### Logs ###
+*.log
+
+### Environment / Secrets ###
+.env
+application-local.yml
+application-prod.yml
+
+### OS ###
+.DS_Store
+Thumbs.db
+
+### IDEs ###
+
+## IntelliJ IDEA ##
+.idea/
+*.iws
+*.iml
+*.ipr
+
+## Eclipse / STS ##
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+
+## VS Code ##
+.vscode/
+
+## NetBeans ##
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### Testing ###
+/surefire-reports/
+/failsafe-reports/
+
+### Node (if frontend added later) ###
+node_modules/
+
+### Docker ###
+docker-compose.override.yml
+
+### Coverage ###
+/coverage/
+/jacoco/
