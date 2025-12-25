@@ -11,6 +11,7 @@ target/
 .env
 application-local.yml
 application-prod.yml
+application.yml
 
 ### OS ###
 .DS_Store
