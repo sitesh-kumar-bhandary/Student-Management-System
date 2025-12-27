@@ -34,10 +34,10 @@ public class EnrollmentEntity {
     private Long version;
 
     @ManyToOne
-    @JoinColumn(name="studentId", nullable = false)
+    @JoinColumn(name="student_id", nullable = false)
     private StudentEntity student;
 
     @ManyToOne
-    @JoinColumn(name="courseId", nullable = false)
+    @JoinColumn(name="course_id", nullable = false)
     private CourseEntity course;
 }
