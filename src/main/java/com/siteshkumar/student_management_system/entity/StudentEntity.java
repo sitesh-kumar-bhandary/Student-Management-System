@@ -26,7 +26,7 @@ public class StudentEntity {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long studentId;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String studentName;
 
     @Column(nullable=false, unique=true)
