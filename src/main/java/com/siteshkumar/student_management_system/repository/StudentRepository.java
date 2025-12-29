@@ -10,4 +10,6 @@ import com.siteshkumar.student_management_system.entity.StudentEntity;
 public interface StudentRepository extends JpaRepository<StudentEntity, Long>{
     
     Page<StudentEntity> findByStudentName(String studentName, Pageable pageable);
+
+    boolean existsByEmailIgnoreCase(String email);
 }

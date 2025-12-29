@@ -9,5 +9,5 @@ public interface StudentService {
     
     public StudentCreateResponseDto createStudent(StudentCreateRequestDto dto);
     public StudentUpdateResponseDto updateStudent(Long studentId, StudentUpdateRequestDto dto);
-
+    public void deleteStudent(Long studentId);
 }
