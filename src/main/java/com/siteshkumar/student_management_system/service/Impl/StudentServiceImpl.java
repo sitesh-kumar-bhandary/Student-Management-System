@@ -1,9 +1,12 @@
 package com.siteshkumar.student_management_system.service.Impl;
 
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.siteshkumar.student_management_system.dto.StudentCreateRequestDto;
 import com.siteshkumar.student_management_system.dto.StudentCreateResponseDto;
+import com.siteshkumar.student_management_system.dto.StudentResponseDto;
 import com.siteshkumar.student_management_system.dto.StudentUpdateRequestDto;
 import com.siteshkumar.student_management_system.dto.StudentUpdateResponseDto;
 import com.siteshkumar.student_management_system.entity.StudentEntity;
@@ -70,5 +73,32 @@ public class StudentServiceImpl implements StudentService{
                             .orElseThrow(() -> new StudentNotFoundException("Student not found with this id: "+studentId));
 
         studentRepository.delete(student);
+    }
+
+    @Override
+    public StudentResponseDto getStudentById(Long studentId) {
+        StudentEntity student = studentRepository.findById(studentId)
+                            .orElseThrow(() -> new StudentNotFoundException("Student not found with this id: "+studentId));
+
+        return new StudentResponseDto(
+            student.getStudentId(),
+            student.getStudentName(),
+            student.getEmail(),
+            student.getVersion()
+        );
+    }
+
+    @Override
+    public Page<StudentResponseDto> getAllStudents(Pageable pageable) {
+        Page<StudentEntity> studentPage = studentRepository.findAll(pageable);
+
+        Page<StudentResponseDto> students = studentPage.map(student -> new StudentResponseDto(
+                                        student.getStudentId(),
+                                        student.getStudentName(),
+                                        student.getEmail(),
+                                        student.getVersion()
+                                    ));
+        
+        return students;
     }    
 }
