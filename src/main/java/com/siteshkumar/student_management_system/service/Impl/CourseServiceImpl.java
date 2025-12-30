@@ -1,6 +1,8 @@
 package com.siteshkumar.student_management_system.service.Impl;
 
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.siteshkumar.student_management_system.dto.CourseCreateRequestDto;
 import com.siteshkumar.student_management_system.dto.CourseCreateResponseDto;
@@ -84,5 +86,19 @@ public class CourseServiceImpl implements CourseService{
             course.getCode(),
             course.getVersion()
         );
+    }
+
+    @Override
+    public Page<CourseResponseDto> getAllCourses(Pageable pageable) {
+        Page<CourseEntity> currentPage = courseRepository.findAll(pageable);
+
+        Page<CourseResponseDto> courses = currentPage.map(c -> new CourseResponseDto(
+            c.getCourseId(),
+            c.getCourseName(),
+            c.getCode(),
+            c.getVersion()
+        ));
+
+        return courses;
     }
 }

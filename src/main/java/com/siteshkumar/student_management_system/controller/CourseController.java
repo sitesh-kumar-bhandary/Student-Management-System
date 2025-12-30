@@ -1,5 +1,7 @@
 package com.siteshkumar.student_management_system.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +17,6 @@ import com.siteshkumar.student_management_system.dto.CourseCreateResponseDto;
 import com.siteshkumar.student_management_system.dto.CourseUpdateRequestDto;
 import com.siteshkumar.student_management_system.dto.CourseResponseDto;
 import com.siteshkumar.student_management_system.service.CourseService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -50,7 +51,9 @@ public class CourseController {
         return ResponseEntity.ok(course);
     }
 
-    // public ResponseEntity<> getAllCourses(){
-
-    // }
+    @GetMapping
+    public ResponseEntity<Page<CourseResponseDto>> getAllCourses(Pageable pageable){
+        Page<CourseResponseDto> currentPage = courseService.getAllCourses(pageable);
+        return ResponseEntity.ok(currentPage);
+    }
 }
