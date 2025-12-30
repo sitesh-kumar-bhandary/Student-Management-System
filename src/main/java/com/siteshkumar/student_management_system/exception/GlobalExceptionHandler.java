@@ -26,4 +26,16 @@ public class GlobalExceptionHandler {
         ApiError apiError = new ApiError(ex.getMessage(), HttpStatus.CONFLICT);
         return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<ApiError> handleDuplicateResourceException(DuplicateResourceException ex){
+        ApiError apiError = new ApiError(ex.getMessage(), HttpStatus.CONFLICT);
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ApiError> handleResourceNotFoundException(ResourceNotFoundException ex){
+        ApiError apiError = new ApiError(ex.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
 }

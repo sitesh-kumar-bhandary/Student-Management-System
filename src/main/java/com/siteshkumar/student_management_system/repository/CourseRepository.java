@@ -13,4 +13,6 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long>{
             select e.course from EnrollmentEntity e where e.student.studentId = :studentId
             """)
     List<CourseEntity> findCourseByStudentId(Long studentId);
+
+    boolean existsByCode(String code);
 }
