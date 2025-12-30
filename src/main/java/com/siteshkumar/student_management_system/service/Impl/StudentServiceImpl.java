@@ -8,7 +8,6 @@ import com.siteshkumar.student_management_system.dto.StudentCreateRequestDto;
 import com.siteshkumar.student_management_system.dto.StudentCreateResponseDto;
 import com.siteshkumar.student_management_system.dto.StudentResponseDto;
 import com.siteshkumar.student_management_system.dto.StudentUpdateRequestDto;
-import com.siteshkumar.student_management_system.dto.StudentUpdateResponseDto;
 import com.siteshkumar.student_management_system.entity.StudentEntity;
 import com.siteshkumar.student_management_system.exception.StudentNotFoundException;
 import com.siteshkumar.student_management_system.repository.StudentRepository;
@@ -40,7 +39,7 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public StudentUpdateResponseDto updateStudent(Long studentId, StudentUpdateRequestDto dto) {
+    public StudentResponseDto updateStudent(Long studentId, StudentUpdateRequestDto dto) {
         StudentEntity student = studentRepository.findById(studentId)
                             .orElseThrow(() -> new StudentNotFoundException("Student not found with id: "+studentId));
 
@@ -59,7 +58,7 @@ public class StudentServiceImpl implements StudentService{
 
         StudentEntity updatedStudent = studentRepository.save(student);
 
-        return new StudentUpdateResponseDto(
+        return new StudentResponseDto(
             updatedStudent.getStudentId(),
             updatedStudent.getStudentName(),
             updatedStudent.getEmail(),

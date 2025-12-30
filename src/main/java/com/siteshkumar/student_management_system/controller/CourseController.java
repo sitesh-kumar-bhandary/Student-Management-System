@@ -2,6 +2,8 @@ package com.siteshkumar.student_management_system.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.siteshkumar.student_management_system.dto.CourseCreateRequestDto;
 import com.siteshkumar.student_management_system.dto.CourseCreateResponseDto;
 import com.siteshkumar.student_management_system.dto.CourseUpdateRequestDto;
-import com.siteshkumar.student_management_system.dto.CourseUpdateResponseDto;
+import com.siteshkumar.student_management_system.dto.CourseResponseDto;
 import com.siteshkumar.student_management_system.service.CourseService;
 
 import jakarta.validation.Valid;
@@ -31,18 +33,22 @@ public class CourseController {
     }
 
     @PutMapping("/{courseId}")
-    public ResponseEntity<CourseUpdateResponseDto> updateCourse(@PathVariable Long courseId, @Valid @RequestBody CourseUpdateRequestDto dto){
-        CourseUpdateResponseDto updatedCourse = courseService.updateCourse(courseId, dto);
+    public ResponseEntity<CourseResponseDto> updateCourse(@PathVariable Long courseId, @Valid @RequestBody CourseUpdateRequestDto dto){
+        CourseResponseDto updatedCourse = courseService.updateCourse(courseId, dto);
         return ResponseEntity.ok(updatedCourse);
     }
 
-    // public ResponseEntity<> deleteCourse(){
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<Void> deleteCourse(@PathVariable Long courseId){
+        courseService.deleteCourse(courseId);
+        return ResponseEntity.noContent().build();
+    }
 
-    // }
-
-    // public ResponseEntity<> getCourseById(){
-
-    // }
+    @GetMapping("/{courseId}")
+    public ResponseEntity<CourseResponseDto> getCourseById(@PathVariable Long courseId){
+        CourseResponseDto course = courseService.getCourseById(courseId);
+        return ResponseEntity.ok(course);
+    }
 
     // public ResponseEntity<> getAllCourses(){
 

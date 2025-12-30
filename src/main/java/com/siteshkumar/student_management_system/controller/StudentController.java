@@ -2,6 +2,7 @@ package com.siteshkumar.student_management_system.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,6 @@ import com.siteshkumar.student_management_system.dto.StudentCreateRequestDto;
 import com.siteshkumar.student_management_system.dto.StudentCreateResponseDto;
 import com.siteshkumar.student_management_system.dto.StudentResponseDto;
 import com.siteshkumar.student_management_system.dto.StudentUpdateRequestDto;
-import com.siteshkumar.student_management_system.dto.StudentUpdateResponseDto;
 import com.siteshkumar.student_management_system.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +30,13 @@ public class StudentController {
     @PostMapping
     public ResponseEntity<StudentCreateResponseDto> createStudent(@Valid @RequestBody StudentCreateRequestDto dto){
         StudentCreateResponseDto createdStudent = studentService.createStudent(dto);
-        return ResponseEntity.status(201).body(createdStudent);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
     }
 
     @PutMapping("/{studentId}")
-    public ResponseEntity<StudentUpdateResponseDto> updateStudent(@PathVariable Long studentId, @Valid @RequestBody StudentUpdateRequestDto dto){
-        StudentUpdateResponseDto updatedStudent = studentService.updateStudent(studentId, dto);
-        return ResponseEntity.status(200).body(updatedStudent);
+    public ResponseEntity<StudentResponseDto> updateStudent(@PathVariable Long studentId, @Valid @RequestBody StudentUpdateRequestDto dto){
+        StudentResponseDto updatedStudent = studentService.updateStudent(studentId, dto);
+        return ResponseEntity.ok(updatedStudent);
     }
 
     @DeleteMapping("/{studentId}")

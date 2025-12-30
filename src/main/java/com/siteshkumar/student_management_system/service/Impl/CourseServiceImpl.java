@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.siteshkumar.student_management_system.dto.CourseCreateRequestDto;
 import com.siteshkumar.student_management_system.dto.CourseCreateResponseDto;
 import com.siteshkumar.student_management_system.dto.CourseUpdateRequestDto;
-import com.siteshkumar.student_management_system.dto.CourseUpdateResponseDto;
+import com.siteshkumar.student_management_system.dto.CourseResponseDto;
 import com.siteshkumar.student_management_system.entity.CourseEntity;
 import com.siteshkumar.student_management_system.exception.DuplicateResourceException;
 import com.siteshkumar.student_management_system.exception.ResourceNotFoundException;
@@ -38,7 +38,7 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public CourseUpdateResponseDto updateCourse(Long courseId, CourseUpdateRequestDto dto) {
+    public CourseResponseDto updateCourse(Long courseId, CourseUpdateRequestDto dto) {
         CourseEntity course = courseRepository.findById(courseId)
                                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with id : "+courseId));
 
@@ -57,11 +57,32 @@ public class CourseServiceImpl implements CourseService{
 
         CourseEntity updatedCourse = courseRepository.save(course);
 
-        return new CourseUpdateResponseDto(
+        return new CourseResponseDto(
             updatedCourse.getCourseId(),
             updatedCourse.getCourseName(),
             updatedCourse.getCode(),
             updatedCourse.getVersion()
         ); 
+    }
+
+    @Override
+    public void deleteCourse(Long courseId) {
+        CourseEntity course = courseRepository.findById(courseId)
+                                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id : "+courseId));
+
+        courseRepository.delete(course);
+    }
+
+    @Override
+    public CourseResponseDto getCourseById(Long courseId) {
+        CourseEntity course = courseRepository.findById(courseId)
+                            .orElseThrow(() -> new ResourceNotFoundException("Course not found with id : "+courseId));
+
+        return new CourseResponseDto(
+            course.getCourseId(),
+            course.getCourseName(),
+            course.getCode(),
+            course.getVersion()
+        );
     }
 }
