@@ -99,5 +99,17 @@ public class StudentServiceImpl implements StudentService{
                                     ));
         
         return students;
+    }
+
+    @Override
+    public Page<StudentResponseDto> searchStudents(String studentName, String email, Pageable pageable) {
+        return studentRepository.searchStudents(studentName, email, pageable)
+                                .map(student -> {
+                                    StudentResponseDto dto = new StudentResponseDto();
+                                    dto.setStudentId(student.getStudentId());
+                                    dto.setStudentName(student.getStudentName());
+                                    dto.setEmail(student.getEmail());
+                                    return dto;
+                                });
     }    
 }

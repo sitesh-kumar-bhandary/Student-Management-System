@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.siteshkumar.student_management_system.dto.StudentCreateRequestDto;
 import com.siteshkumar.student_management_system.dto.StudentCreateResponseDto;
@@ -54,6 +55,17 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<Page<StudentResponseDto>> getAllStudents(Pageable pageable){
         Page<StudentResponseDto> students = studentService.getAllStudents(pageable);
+        return ResponseEntity.ok(students);
+    }
+
+    // Implementing searching funtionality
+    @GetMapping("/search")
+    public ResponseEntity<Page<StudentResponseDto>> searchStudents(
+        @RequestParam(required = false) String studentName,
+        @RequestParam(required = false) String email,
+        Pageable pageable
+    ){
+        Page<StudentResponseDto> students = studentService.searchStudents(studentName, email, pageable);
         return ResponseEntity.ok(students);
     }
 }

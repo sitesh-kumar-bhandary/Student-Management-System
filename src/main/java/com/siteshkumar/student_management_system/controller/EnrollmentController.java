@@ -18,13 +18,13 @@ public class EnrollmentController {
     private final EnrollmentService enrollmentService;
     
     @PostMapping
-    public ResponseEntity<Void> enroll(@RequestParam Long studentId, @RequestParam Long courseId){
+    public ResponseEntity<Void> enrollStudent(@RequestParam Long studentId, @RequestParam Long courseId){
         enrollmentService.enrollStudent(studentId, courseId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> remove(@RequestParam Long studentId, @RequestParam Long courseId){
+    public ResponseEntity<Void> removeEnrollment(@RequestParam Long studentId, @RequestParam Long courseId){
         enrollmentService.removeEnrollment(studentId, courseId);
         return ResponseEntity.noContent().build();
     }
