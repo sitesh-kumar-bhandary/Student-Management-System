@@ -3,12 +3,14 @@ package com.siteshkumar.student_management_system.entity;
 import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +20,12 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name="enrollments")
+@Table(
+    name="enrollments",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"student_id", "course_id"})
+    }
+)
 public class EnrollmentEntity {
 
     @Id
@@ -33,11 +40,11 @@ public class EnrollmentEntity {
     @Version
     private Long version;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="student_id", nullable = false)
     private StudentEntity student;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="course_id", nullable = false)
     private CourseEntity course;
 }
