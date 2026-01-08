@@ -16,6 +16,7 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long>{
         AND (:email IS NULL OR LOWER(s.email) = LOWER(:email))
     """)
     Page<StudentEntity> searchStudents(String studentName, String email, Pageable pageable);
+    
     Page<StudentEntity> findByStudentName(String studentName, Pageable pageable);
     boolean existsByEmailIgnoreCase(String email);
 }
