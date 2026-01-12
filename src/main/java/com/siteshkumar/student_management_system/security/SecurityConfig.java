@@ -28,6 +28,7 @@ public class SecurityConfig {
             // public api's
             .requestMatchers(HttpMethod.GET, "/courses/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+            .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 
             // api that can access by students
             .requestMatchers("/students/me").hasRole("STUDENT")
