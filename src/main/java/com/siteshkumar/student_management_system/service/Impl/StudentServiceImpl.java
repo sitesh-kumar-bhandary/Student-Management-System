@@ -9,8 +9,11 @@ import com.siteshkumar.student_management_system.dto.StudentCreateResponseDto;
 import com.siteshkumar.student_management_system.dto.StudentResponseDto;
 import com.siteshkumar.student_management_system.dto.StudentUpdateRequestDto;
 import com.siteshkumar.student_management_system.entity.StudentEntity;
+import com.siteshkumar.student_management_system.exception.ResourceNotFoundException;
 import com.siteshkumar.student_management_system.exception.StudentNotFoundException;
 import com.siteshkumar.student_management_system.repository.StudentRepository;
+import com.siteshkumar.student_management_system.security.AuthUtils;
+import com.siteshkumar.student_management_system.security.CustomUserDetails;
 import com.siteshkumar.student_management_system.service.StudentService;
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class StudentServiceImpl implements StudentService{
 
     private final StudentRepository studentRepository;
+    private final AuthUtils authUtils;
 
     @Override
     public StudentCreateResponseDto createStudent(StudentCreateRequestDto dto) {
@@ -111,5 +115,21 @@ public class StudentServiceImpl implements StudentService{
                                     dto.setEmail(student.getEmail());
                                     return dto;
                                 });
+    }
+
+    @Override
+    public StudentResponseDto getMyProfile() {
+        CustomUserDetails user = authUtils.getCurrentLoggedInUser();
+        StudentEntity student = user.getUser().getStudent();
+
+        if(student == null)
+            throw new ResourceNotFoundException("Student profile not found");
+
+        return new StudentResponseDto(
+            student.getStudentId(),
+            student.getStudentName(),
+            student.getEmail(),
+            student.getVersion()
+        );
     }    
 }

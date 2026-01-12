@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter{
 
-    private final HandlerExceptionResolver handleExceptionResolver;
+    private final HandlerExceptionResolver handlerExceptionResolver;
     private final UserDetailsService userDetailsService;
     private final AuthUtils authUtils;
 
@@ -50,7 +50,7 @@ public class JwtAuthFilter extends OncePerRequestFilter{
         }
 
         catch (Exception ex){
-            handleExceptionResolver.resolveException(request, response, null, ex);
+            handlerExceptionResolver.resolveException(request, response, null, ex);
         }
     }
 }

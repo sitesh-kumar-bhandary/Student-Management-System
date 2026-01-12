@@ -58,6 +58,12 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<StudentResponseDto> getMyProfile(){
+        StudentResponseDto myProfile = studentService.getMyProfile();
+        return ResponseEntity.ok(myProfile);
+    }
+
     // Implementing searching funtionality
     @GetMapping("/search")
     public ResponseEntity<Page<StudentResponseDto>> searchStudents(

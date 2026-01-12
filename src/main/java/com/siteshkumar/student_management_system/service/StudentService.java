@@ -14,5 +14,6 @@ public interface StudentService {
     public void deleteStudent(Long studentId);
     public StudentResponseDto getStudentById(Long studentId);
     public Page<StudentResponseDto> getAllStudents(Pageable pageable);
+    public StudentResponseDto getMyProfile();
     public Page<StudentResponseDto> searchStudents(String studentName, String email, Pageable pageable);
 }
