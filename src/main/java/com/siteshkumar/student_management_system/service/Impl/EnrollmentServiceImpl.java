@@ -3,6 +3,7 @@ package com.siteshkumar.student_management_system.service.Impl;
 import java.time.LocalDate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.siteshkumar.student_management_system.dto.EnrollmentGradeResponseDto;
 import com.siteshkumar.student_management_system.entity.CourseEntity;
 import com.siteshkumar.student_management_system.entity.EnrollmentEntity;
 import com.siteshkumar.student_management_system.entity.StudentEntity;
@@ -50,5 +51,24 @@ public class EnrollmentServiceImpl implements EnrollmentService{
                                     .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found!!!"));
 
         enrollmentRepository.delete(enrollment);
-    } 
+    }
+
+    @Transactional
+    @Override
+    public EnrollmentGradeResponseDto updateGrade(Long enrollmentId, Double grade) {
+        EnrollmentEntity enrollment = enrollmentRepository
+                                    .findById(enrollmentId)
+                                    .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found")); 
+
+        enrollment.setGrade(grade);
+
+        return new EnrollmentGradeResponseDto(
+            enrollment.getEnrollmentId(),
+            enrollment.getStudent().getStudentId(),
+            enrollment.getStudent().getStudentName(),
+            enrollment.getCourse().getCourseId(),
+            enrollment.getCourse().getCourseName(),
+            enrollment.getGrade()
+        );
+    }
 }

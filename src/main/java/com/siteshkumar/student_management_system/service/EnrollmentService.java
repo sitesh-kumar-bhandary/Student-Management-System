@@ -1,6 +1,9 @@
 package com.siteshkumar.student_management_system.service;
 
+import com.siteshkumar.student_management_system.dto.EnrollmentGradeResponseDto;
+
 public interface EnrollmentService {
     public void enrollStudent(Long studentId, Long courseId);
     public void removeEnrollment(Long studentId, Long courseId);
+    public EnrollmentGradeResponseDto updateGrade(Long enrollmentId, Double grade);
 }
