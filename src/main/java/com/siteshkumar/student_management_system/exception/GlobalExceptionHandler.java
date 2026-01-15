@@ -60,6 +60,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiError> handleIllegalStateException(IllegalStateException ex){
+        ApiError apiError = new ApiError(ex.getMessage(), HttpStatus.TOO_MANY_REQUESTS);
+        return new ResponseEntity<>(apiError, HttpStatus.TOO_MANY_REQUESTS);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleAllExceptions(Exception ex) {
         ApiError apiError = new ApiError("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);

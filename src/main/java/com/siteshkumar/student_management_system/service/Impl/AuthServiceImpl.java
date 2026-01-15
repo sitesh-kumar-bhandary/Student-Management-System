@@ -1,19 +1,24 @@
 package com.siteshkumar.student_management_system.service.Impl;
 
+import java.time.LocalDateTime;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.siteshkumar.student_management_system.dto.ChangePasswordRequestDto;
 import com.siteshkumar.student_management_system.dto.LoginRequestDto;
 import com.siteshkumar.student_management_system.dto.LoginResponseDto;
 import com.siteshkumar.student_management_system.dto.SignupRequestDto;
 import com.siteshkumar.student_management_system.dto.SignupResponseDto;
+import com.siteshkumar.student_management_system.entity.PasswordChangeHistoryEntity;
 import com.siteshkumar.student_management_system.entity.Role;
 import com.siteshkumar.student_management_system.entity.StudentEntity;
 import com.siteshkumar.student_management_system.entity.UserEntity;
 import com.siteshkumar.student_management_system.exception.DuplicateResourceException;
+import com.siteshkumar.student_management_system.repository.PasswordChangeHistoryRepository;
 import com.siteshkumar.student_management_system.repository.UserRepository;
 import com.siteshkumar.student_management_system.security.AuthUtils;
 import com.siteshkumar.student_management_system.security.CustomUserDetails;
@@ -27,6 +32,7 @@ public class AuthServiceImpl implements AuthService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final PasswordChangeHistoryRepository passwordChangeHistoryRepository;
     private final AuthUtils authUtils;
 
     @Transactional
@@ -73,5 +79,33 @@ public class AuthServiceImpl implements AuthService{
             user.getUsername(),
             token
         );
+    }
+
+    @Transactional
+    @Override
+    public void changePassword(ChangePasswordRequestDto request) {
+        CustomUserDetails userDetails = authUtils.getCurrentLoggedInUser();
+        UserEntity user = userDetails.getUser();
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime windowStart = now.minusDays(7);
+
+        long changeCount = passwordChangeHistoryRepository.countByUserAndChangedAtAfter(user, windowStart);
+        if(changeCount >= 3){
+            throw new IllegalStateException("Password change limit is reached. Please try again after 7 days.");
+        }
+
+        if(! passwordEncoder.matches(request.getOldPassword(), user.getPassword())){
+            throw new IllegalArgumentException("Old password is incorrect");
+        }
+
+        String newPassword = passwordEncoder.encode(request.getNewPassword());
+        user.setPassword(newPassword);
+
+        PasswordChangeHistoryEntity history = new PasswordChangeHistoryEntity();
+        history.setUser(user);
+        history.setChangedAt(now);
+
+        passwordChangeHistoryRepository.save(history);
     }
 }

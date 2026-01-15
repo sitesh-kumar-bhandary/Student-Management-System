@@ -32,6 +32,7 @@ public class SecurityConfig {
 
             // api that can access by students
             .requestMatchers("/students/me").hasRole("STUDENT")
+            .requestMatchers("/auth/change-password").hasRole("STUDENT")
 
             // api that can be accessed by teachers and admin
             .requestMatchers(HttpMethod.GET, "/students/**").hasAnyRole("TEACHER", "ADMIN")

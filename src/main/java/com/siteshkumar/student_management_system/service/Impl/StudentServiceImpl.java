@@ -4,6 +4,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.siteshkumar.student_management_system.dto.StudentCreateRequestDto;
 import com.siteshkumar.student_management_system.dto.StudentCreateResponseDto;
 import com.siteshkumar.student_management_system.dto.StudentResponseDto;
@@ -78,6 +79,7 @@ public class StudentServiceImpl implements StudentService{
         studentRepository.delete(student);
     }
 
+    @Transactional
     @Override
     public StudentResponseDto getStudentById(Long studentId) {
         StudentEntity student = studentRepository.findById(studentId)
@@ -91,6 +93,7 @@ public class StudentServiceImpl implements StudentService{
         );
     }
 
+    @Transactional
     @Override
     public Page<StudentResponseDto> getAllStudents(Pageable pageable) {
         Page<StudentEntity> studentPage = studentRepository.findAll(pageable);
@@ -105,6 +108,7 @@ public class StudentServiceImpl implements StudentService{
         return students;
     }
 
+    @Transactional
     @Override
     public Page<StudentResponseDto> searchStudents(String studentName, String email, Pageable pageable) {
         return studentRepository.searchStudents(studentName, email, pageable)
@@ -117,13 +121,14 @@ public class StudentServiceImpl implements StudentService{
                                 });
     }
 
+    @Transactional
     @Override
     public StudentResponseDto getMyProfile() {
         CustomUserDetails user = authUtils.getCurrentLoggedInUser();
-        StudentEntity student = user.getUser().getStudent();
 
-        if(student == null)
-            throw new ResourceNotFoundException("Student profile not found");
+        StudentEntity student = studentRepository
+                            .findByEmail(user.getUsername())
+                            .orElseThrow(() -> new ResourceNotFoundException("Student profile not found"));
 
         return new StudentResponseDto(
             student.getStudentId(),
