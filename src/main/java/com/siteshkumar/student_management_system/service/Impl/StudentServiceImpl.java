@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import com.siteshkumar.student_management_system.dto.StudentCreateRequestDto;
 import com.siteshkumar.student_management_system.dto.StudentCreateResponseDto;
 import com.siteshkumar.student_management_system.dto.StudentResponseDto;
@@ -15,6 +16,7 @@ import com.siteshkumar.student_management_system.exception.StudentNotFoundExcept
 import com.siteshkumar.student_management_system.repository.StudentRepository;
 import com.siteshkumar.student_management_system.security.AuthUtils;
 import com.siteshkumar.student_management_system.security.CustomUserDetails;
+import com.siteshkumar.student_management_system.service.FileStorageService;
 import com.siteshkumar.student_management_system.service.StudentService;
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +26,7 @@ public class StudentServiceImpl implements StudentService{
 
     private final StudentRepository studentRepository;
     private final AuthUtils authUtils;
+    private final FileStorageService fileStorageService;
 
     @Override
     public StudentCreateResponseDto createStudent(StudentCreateRequestDto dto) {
@@ -136,5 +139,17 @@ public class StudentServiceImpl implements StudentService{
             student.getEmail(),
             student.getVersion()
         );
+    }
+
+    @Transactional
+    @Override
+    public void uploadStudentPhoto(Long studentId, MultipartFile file) {
+        StudentEntity student = studentRepository
+                            .findById(studentId)
+                            .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+
+        String imagePath = fileStorageService.uploadStudentProfilePhoto(studentId, file);
+
+        student.setProfileImageUrl(imagePath);
     }    
 }

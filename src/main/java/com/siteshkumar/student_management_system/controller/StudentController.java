@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.siteshkumar.student_management_system.dto.StudentCreateRequestDto;
 import com.siteshkumar.student_management_system.dto.StudentCreateResponseDto;
 import com.siteshkumar.student_management_system.dto.StudentResponseDto;
@@ -74,4 +76,10 @@ public class StudentController {
         Page<StudentResponseDto> students = studentService.searchStudents(studentName, email, pageable);
         return ResponseEntity.ok(students);
     }
+
+    @PostMapping("/{studentId}/upload-photo")
+    public ResponseEntity<Void> uploadStudentPhoto(@PathVariable Long studentId, @RequestParam("file") MultipartFile file){
+        studentService.uploadStudentPhoto(studentId, file);
+        return ResponseEntity.noContent().build();
+    } 
 }

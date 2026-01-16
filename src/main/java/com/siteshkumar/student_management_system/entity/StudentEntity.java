@@ -32,6 +32,8 @@ public class StudentEntity {
     @Column(nullable=false, unique=true)
     private String email;
 
+    private String profileImageUrl;
+
     @Version
     private Long version;
 

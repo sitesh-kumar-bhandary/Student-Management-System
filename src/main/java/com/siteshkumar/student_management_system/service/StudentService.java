@@ -2,6 +2,8 @@ package com.siteshkumar.student_management_system.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.siteshkumar.student_management_system.dto.StudentCreateRequestDto;
 import com.siteshkumar.student_management_system.dto.StudentCreateResponseDto;
 import com.siteshkumar.student_management_system.dto.StudentResponseDto;
@@ -16,4 +18,5 @@ public interface StudentService {
     public Page<StudentResponseDto> getAllStudents(Pageable pageable);
     public StudentResponseDto getMyProfile();
     public Page<StudentResponseDto> searchStudents(String studentName, String email, Pageable pageable);
+    void uploadStudentPhoto(Long studentId, MultipartFile file);
 }

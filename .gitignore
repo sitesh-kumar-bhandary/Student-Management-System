@@ -7,6 +7,10 @@ target/
 ### Logs ###
 *.log
 
+# Uploaded files
+/uploads/
+/uploads/**
+
 ### Environment / Secrets ###
 .env
 application-local.yml
