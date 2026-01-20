@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,11 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class EmailService {
+
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
 
     @Async
     public void sendStudentCreatedEmail(String to, String name, String password) {
+
+        log.info("Sending student account creation email to {}", to);
+
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -31,21 +36,26 @@ public class EmailService {
             context.setVariable("password", password);
 
             String htmlContent = templateEngine.process("StudentCreated", context);
+
             helper.setTo(to);
             helper.setFrom("siteshk111@gmail.com");
             helper.setSubject("Your Student Account is Ready.");
             helper.setText(htmlContent, true);
 
             javaMailSender.send(message);
-        }
 
-        catch (Exception ex) {
-            log.error("Email sending failed ", ex);
+            log.info("Student account creation email sent successfully to {}", to);
+
+        } catch (Exception ex) {
+            log.error("Student account creation email failed for {}", to, ex);
         }
     }
 
     @Async
     public void sendPasswordUpdateEmail(String email, String name) {
+
+        log.info("Sending password update notification email to {}", email);
+
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -62,11 +72,10 @@ public class EmailService {
 
             javaMailSender.send(message);
 
-        } 
-        
-        catch (Exception ex) {
+            log.info("Password update notification email sent successfully to {}", email);
+
+        } catch (Exception ex) {
             log.error("Failed to send password update email to {}", email, ex);
         }
     }
-
 }
