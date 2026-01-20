@@ -40,13 +40,13 @@ public class SecurityConfig {
 
             // Api that can only be accessed by admin
             .requestMatchers(HttpMethod.POST, "/students").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/students/**").hasRole("ADMIN")
             .requestMatchers(HttpMethod.PUT, "/students/**").hasRole("ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/students/**").hasRole("ADMIN")
 
             .requestMatchers(HttpMethod.POST, "/courses").hasRole("ADMIN")
             .requestMatchers(HttpMethod.PUT, "/courses/**").hasRole("ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/courses/**").hasRole("ADMIN")
-            .requestMatchers("/auth/signup").hasRole("ADMIN")
 
             .requestMatchers("/reports/**").hasRole("ADMIN")
 
