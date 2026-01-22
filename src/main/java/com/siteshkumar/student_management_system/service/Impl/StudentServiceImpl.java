@@ -39,7 +39,6 @@ public class StudentServiceImpl implements StudentService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthUtils authUtils;
-    private final PasswordUtils passwordUtils;
     private final FileStorageService fileStorageService;
 
     @Override
@@ -52,7 +51,7 @@ public class StudentServiceImpl implements StudentService {
             throw new IllegalArgumentException("Email already exists");
         }
 
-        String rawPassword = passwordUtils.generateTemporaryPassword();
+        String rawPassword = PasswordUtils.generateTemporaryPassword();
 
         StudentEntity student = new StudentEntity();
         student.setStudentName(dto.getStudentName());
