@@ -137,6 +137,19 @@ mvn clean install
 mvn spring-boot:run
 ```
 
+### Load Testing (JMeter) - Pictures
+
+<img width="1920" height="1080" alt="Screenshot (93)" src="https://github.com/user-attachments/assets/5b1c0608-6143-4e09-86d0-727243f0ffc6" />
+<img width="1920" height="1080" alt="Screenshot (92)" src="https://github.com/user-attachments/assets/d86bfbe0-5695-4cee-8088-87a545a6a583" />
+<img width="1920" height="1080" alt="Screenshot (91)" src="https://github.com/user-attachments/assets/62403495-b4c3-432e-b66e-55fb1f30322d" />
+<img width="1920" height="1080" alt="Screenshot (90)" src="https://github.com/user-attachments/assets/1bb80292-71ab-4c26-9e82-257acc2a01a4" />
+
+
+### JaCoco Report - Picture
+
+<img width="1920" height="1080" alt="Screenshot (82)" src="https://github.com/user-attachments/assets/896ed23c-9495-4463-9094-9039039c7fd7" />
+
+
 ### 📈 Future Enhancements
 - Add integration tests using MockMvc or Testcontainers
 - Introduce caching for frequently accessed endpoints
