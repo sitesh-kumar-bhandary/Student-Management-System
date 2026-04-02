@@ -156,6 +156,11 @@ mvn spring-boot:run
 - Add audit logging and monitoring
 - Dockerize the application for deployment
 
-### 👤 Author
-#### Sitesh Kumar
-##### Backend Developer | Java | Spring Boot
+## 👤 Author
+
+**Sitesh Kumar Bhandary**
+Backend Developer | Java | Spring Boot
+
+* GitHub: https://github.com/sitesh-kumar-bhandary
+* Linkedin : https://www.linkedin.com/in/sitesh-kumar-bhandary/
+* LeetCode : https://leetcode.com/u/_sitesh_kumar/
